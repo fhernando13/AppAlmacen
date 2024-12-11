@@ -4,6 +4,8 @@ import cors from 'cors';
 
 // Rutas
 import indexRoutes from './routes/indexRoutes';
+import rolesRoutes from'./routes/rolesRoutes';
+import usuarioRoutes from './routes/usuariosRoutes';
 
 class Server{
     
@@ -25,6 +27,8 @@ class Server{
 
     routes(): void{
         this.app.use('/', indexRoutes);
+        this.app.use('/api/roles', rolesRoutes);
+        this.app.use('/api/usuarios', usuarioRoutes);
     }
 
     start(): void{
@@ -32,7 +36,6 @@ class Server{
             console.log('Server on port ', this.app.get('port'))
         });
     }
-
 
 }
 
