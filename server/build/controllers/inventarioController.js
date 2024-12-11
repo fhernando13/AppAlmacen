@@ -18,12 +18,12 @@ class InventarioController {
     getall(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             yield conexion_1.default.query(`SELECT Idinventario, NombreProducto ,NombreUsuario, Movimiento, Cantidad, FechaInventario 
-                          FROM store.Inventarios i
-                               JOIN store.Productos p  
+                          FROM almacen.Inventarios i
+                               JOIN almacen.Productos p  
                           ON i.ProductoId  = p.Idproducto 
-                               JOIN store.Movimientos m
+                               JOIN almacen.Movimientos m
                           ON i.MovimientoId  = m.Idmovimiento 
-                               left JOIN store.Usuarios u 
+                               left JOIN almacen.Usuarios u 
                           ON m.Idmovimiento = u.Idusuario order by Idinventario `, (error, results, fields) => {
                 if (error) {
                     console.log(error);
