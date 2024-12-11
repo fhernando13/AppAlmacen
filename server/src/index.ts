@@ -7,7 +7,9 @@ import indexRoutes from './routes/indexRoutes';
 import rolesRoutes from'./routes/rolesRoutes';
 import usuarioRoutes from './routes/usuariosRoutes';
 import loginRoutes from './routes/loginRoutes';
-import productosRoutes from './routes/productosRoutes'
+import productosRoutes from './routes/productosRoutes';
+import movimientosRoutes from './routes/movimientosRoutes';
+import inventariosRoutes from './routes/inventarioRoutes';
 
 class Server{
     
@@ -33,6 +35,8 @@ class Server{
         this.app.use('/api/usuarios', usuarioRoutes);
         this.app.use('/api/login', loginRoutes);
         this.app.use('/api/productos', productosRoutes); 
+        this.app.use('/api/movimientos', movimientosRoutes);
+        this.app.use('/api/inventario', inventariosRoutes); 
     }
 
     start(): void{
