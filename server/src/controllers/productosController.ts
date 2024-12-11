@@ -14,6 +14,20 @@ class ProductosController{
             return res.status(200).send(results); 
         });      
     }
+
+    //existencia de producto
+    public getAll (req: Request, res: Response){
+        const {id} = req.params;
+        pool.query("SELECT * FROM almacen.Productos where EstatusProducto = 1", [id], (error, results, fields) => { 
+            if(error) { 
+                console.log(error); 
+            }if(results == false) {
+                console.log('Producto no existe!!');
+                return res.status(400).send('Producto no existe!!'); 
+            }
+            return res.status(200).send(results); 
+        });      
+    }
     
     //obtener un producto
     public getOne (req: Request, res: Response){
@@ -65,6 +79,7 @@ class ProductosController{
         });
     }
 
+    //actualizar un producto
     public update(req: Request, res:Response){
         const {id} = req.params;
         console.log(id);
@@ -81,6 +96,20 @@ class ProductosController{
                 return res.status(200).send('Producto actualizado');
             }
         });
+    }
+
+    //Obtener la existencia del producto
+    public get (req: Request, res: Response){
+        const {id} = req.params;
+        pool.query("SELECT ExistenciaProducto FROM almacen.Productos where Idproducto = ?", [id], (error, results, fields) => { 
+            if(error) { 
+                console.log(error); 
+            }if(results == false) {
+                console.log('Producto no existe!!');
+                return res.status(400).send('Producto no existe!!'); 
+            }
+            return res.status(200).send(results); 
+        });      
     }
 }
 

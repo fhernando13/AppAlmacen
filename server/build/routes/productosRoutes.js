@@ -13,6 +13,8 @@ class UsuarioRoutes {
     config() {
         this.router.get('/listaproductos', productosController_1.default.list);
         this.router.get('/producto/:id', productosController_1.default.getOne);
+        this.router.get('/productosactivos/', productosController_1.default.getAll);
+        this.router.get('/existencia/:id', productosController_1.default.get);
         this.router.post('/registrar', productosController_1.default.create);
         this.router.delete('/eliminar/:id', productosController_1.default.delete);
         this.router.put('/actualizar/:id', productosController_1.default.update);

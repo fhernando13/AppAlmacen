@@ -30,6 +30,31 @@ class UsuarioController{
         });      
     }   
 
+    //Usuarios por rol
+    public async getall (req: Request, res: Response){
+        await pool.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u INNER JOIN almacen.Roles r ON u.Rolid = r.Idrol ", (error, results, fields) => { 
+            if(error) { 
+                console.log(error); 
+                return res.status(400).send('error'); 
+            }
+            return res.status(200).send(results); 
+        });      
+    }
+
+    //obtener usuario por rol
+    public async getOneByRol (req: Request, res: Response){        
+        const {id} = req.params;
+        await pool.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, RolUsuario FROM almacen.Usuarios u inner JOIN almacen.Roles r ON u.Rolid  = r.Idrol where Idusuario = ?", [id], (error, results, fields) => {        
+            if(error) { 
+                console.log(error); 
+            }if(results == false) {
+                console.log('Usuario no existe!!');
+                return res.status(400).send('Usuario no existe!!'); 
+            }
+            return res.status(200).send(results); 
+        });      
+    }   
+
     //crear usuario
     public async create(req: Request, res:Response){        
         const { NombreUsuario, CorreoUsuario, PasswordUsuario, EstatusUsuario, RolId } = req.body;

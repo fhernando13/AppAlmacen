@@ -43,6 +43,34 @@ class UsuarioController {
             });
         });
     }
+    //Usuarios por rol
+    getall(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield conexion_1.default.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u INNER JOIN almacen.Roles r ON u.Rolid = r.Idrol ", (error, results, fields) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(400).send('error');
+                }
+                return res.status(200).send(results);
+            });
+        });
+    }
+    //obtener usuario por rol
+    getOneByRol(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            yield conexion_1.default.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, RolUsuario FROM almacen.Usuarios u inner JOIN almacen.Roles r ON u.Rolid  = r.Idrol where Idusuario = ?", [id], (error, results, fields) => {
+                if (error) {
+                    console.log(error);
+                }
+                if (results == false) {
+                    console.log('Usuario no existe!!');
+                    return res.status(400).send('Usuario no existe!!');
+                }
+                return res.status(200).send(results);
+            });
+        });
+    }
     //crear usuario
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {

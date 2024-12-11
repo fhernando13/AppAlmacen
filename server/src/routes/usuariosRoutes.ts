@@ -12,7 +12,9 @@ class UsuariosRoutes {
 
     config(): void{
         this.router.get('/listausuarios', usuarioController.list);        
+        this.router.get('/usuariosbyrol', usuarioController.getall);
         this.router.get('/usuario/:id', usuarioController.getOne);
+        this.router.get('/usuariorol/:id', usuarioController.getOneByRol);
         this.router.post('/registrar', usuarioController.create);
         this.router.delete('/eliminar/:id', usuarioController.delete);
         this.router.put('/actualizar/:id', usuarioController.update);

@@ -15,6 +15,20 @@ class ProductosController {
             return res.status(200).send(results);
         });
     }
+    //existencia de producto
+    getAll(req, res) {
+        const { id } = req.params;
+        conexion_1.default.query("SELECT * FROM almacen.Productos where EstatusProducto = 1", [id], (error, results, fields) => {
+            if (error) {
+                console.log(error);
+            }
+            if (results == false) {
+                console.log('Producto no existe!!');
+                return res.status(400).send('Producto no existe!!');
+            }
+            return res.status(200).send(results);
+        });
+    }
     //obtener un producto
     getOne(req, res) {
         const { id } = req.params;
@@ -65,6 +79,7 @@ class ProductosController {
             }
         });
     }
+    //actualizar un producto
     update(req, res) {
         const { id } = req.params;
         console.log(id);
@@ -82,6 +97,20 @@ class ProductosController {
                 conexion_1.default.query("UPDATE almacen.Productos SET ? WHERE Idproducto=?", [req.body, id]);
                 return res.status(200).send('Producto actualizado');
             }
+        });
+    }
+    //Obtener la existencia del producto
+    get(req, res) {
+        const { id } = req.params;
+        conexion_1.default.query("SELECT ExistenciaProducto FROM almacen.Productos where Idproducto = ?", [id], (error, results, fields) => {
+            if (error) {
+                console.log(error);
+            }
+            if (results == false) {
+                console.log('Producto no existe!!');
+                return res.status(400).send('Producto no existe!!');
+            }
+            return res.status(200).send(results);
         });
     }
 }
