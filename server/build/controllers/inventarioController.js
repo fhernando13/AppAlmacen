@@ -14,6 +14,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const conexion_1 = __importDefault(require("../conexion"));
 class InventarioController {
+    //join
+    getall(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield conexion_1.default.query(`SELECT Idinventario, NombreProducto ,NombreUsuario, Movimiento, Cantidad, FechaInventario 
+                          FROM store.Inventarios i
+                               JOIN store.Productos p  
+                          ON i.ProductoId  = p.Idproducto 
+                               JOIN store.Movimientos m
+                          ON i.MovimientoId  = m.Idmovimiento 
+                               left JOIN store.Usuarios u 
+                          ON m.Idmovimiento = u.Idusuario order by Idinventario `, (error, results, fields) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(400).send('error');
+                }
+                return res.status(200).send(results);
+            });
+        });
+    }
     //Aumentar existencia de u producto
     update(req, res) {
         const { id } = req.params;

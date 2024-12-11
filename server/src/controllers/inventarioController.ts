@@ -4,6 +4,24 @@ import pool from '../conexion';
 
 class InventarioController{
 
+    //join
+    public async getall (req: Request, res: Response){
+        await pool.query(`SELECT Idinventario, NombreProducto ,NombreUsuario, Movimiento, Cantidad, FechaInventario 
+                          FROM store.Inventarios i
+                               JOIN store.Productos p  
+                          ON i.ProductoId  = p.Idproducto 
+                               JOIN store.Movimientos m
+                          ON i.MovimientoId  = m.Idmovimiento 
+                               left JOIN store.Usuarios u 
+                          ON m.Idmovimiento = u.Idusuario order by Idinventario `, (error, results, fields) => { 
+            if(error) { 
+                console.log(error); 
+                return res.status(400).send('error'); 
+            }
+            return res.status(200).send(results); 
+        });      
+    }  
+
     //Aumentar existencia de u producto
     public update(req: Request, res:Response){
         const {id} = req.params;

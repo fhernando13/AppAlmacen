@@ -11,7 +11,7 @@ class InventariosRoutes {
     }
 
     config(): void{        
-        
+        this.router.get('/historicocompleto', inventarioController.getall);
         this.router.post('/entrada', inventarioController.create);
     }
 
