@@ -14,3 +14,4 @@ services:
       working_dir: /var/lib/mysql
       volumes:
         - "./mysql:/var/lib/mysql:rw"
+      

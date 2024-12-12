@@ -1,0 +1,63 @@
+
+services:
+  serverexpress:
+    container_name: express
+    # construir imagen
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+    - "3000:3000"
+    tty: true
+    restart: unless-stopped
+    networks:
+      red_web:
+        #localhost
+        ipv4_address: 192.168.100.5
+      red_interna:
+        ipv4_address: 192.168.20.20
+    hostname: server_express
+
+  almacen:
+    container_name: almacen
+    # construir imagen
+    build:
+      context: ./appalmacen
+      dockerfile: Dockerfile
+    # o desde el docker hub    
+    ports:
+    - "80:80"
+    expose:
+      - 80
+    tty: true
+    restart: unless-stopped
+    networks:
+        red_interna:
+          ipv4_address: 192.168.20.30
+    hostname: almacen
+  
+  database:
+      container_name: database
+      image: mysql:8.0
+      command: ["--default-authentication-plugin=mysql_native_password", "--sql_mode="]
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: innovadb
+      ports:
+        - 3306:3306
+      networks:
+        red_interna:
+          ipv4_address: 192.168.20.10
+      hostname: mysql_db
+  
+networks:
+    red_web:
+        ipam:
+            config:
+              #localhost
+              - subnet: 192.168.100.0/24
+    red_interna:
+        ipam:
+            config:
+              - subnet: 192.168.20.0/24
