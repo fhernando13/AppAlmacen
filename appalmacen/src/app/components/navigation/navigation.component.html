@@ -1,0 +1,38 @@
+<mat-toolbar color="primary">
+    <mat-toolbar color="primary">
+      <img src="./assets/images/nodejs.png" alt="Logo" width="45" height="45" class="d-inline-block align-text-top">
+
+      <button mat-button [matMenuTriggerFor]="loansMenu">Productos</button>
+        <mat-menu #loansMenu="matMenu" yPosition="above">      
+          <button mat-menu-item >Lista de productos</button>    
+          
+        </mat-menu>      
+
+        <button mat-button [matMenuTriggerFor]="adminMenu" >Usuarios</button>
+        <mat-menu #adminMenu="matMenu" yPosition="below">
+          <button mat-menu-item [routerLink]="['/listaUsuario']">Lista</button>
+        </mat-menu>      
+        
+    </mat-toolbar>
+    <button mat-raised-button 
+            color="primary" 
+            [matMenuTriggerFor]="menu"
+            matTooltip="My profile"
+            >{{unique_name}}</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item
+          matTooltip="{{modetheme}}">
+          <mat-icon>{{icon}}</mat-icon>
+          <span class="example-spacer"></span>
+        <mat-slide-toggle (ngModelChange)="onChange($event)" [ngModel]="isDarkThemeActive" >{{mode}}</mat-slide-toggle>
+        </button>                
+        <button 
+          mat-menu-item 
+          matTooltip="Salir de la aplicaión"
+          (click)="logOut()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+      </button>
+      </mat-menu>
+              
+</mat-toolbar>

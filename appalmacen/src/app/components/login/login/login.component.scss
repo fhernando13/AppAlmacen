@@ -1,0 +1,23 @@
+.card-login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to top, #ffffff, #000a61 80% ) no-repeat;
+    margin-top: 50px;//margen superior
+    min-width: 320px;
+    max-width: 320px;
+}
+.form-login{
+    margin-top: 50px;
+}
+.inputlogin{
+    text-align: center;
+    width: 100%;
+}
+.buttonlogin{
+    justify-content: center;
+    text-align: center;
+}
+.info-button-login {
+    text-transform: uppercase;
+  }
