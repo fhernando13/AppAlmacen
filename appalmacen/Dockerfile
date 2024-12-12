@@ -14,6 +14,6 @@ RUN npm run build
 # Stage 2
 FROM nginx:stable
 
-COPY --from=node /app/dist/almacen/ /usr/share/nginx/html
+COPY --from=node /app/dist/appalmacen/ /usr/share/nginx/html
 
 EXPOSE 80

@@ -1,0 +1,13 @@
+1.1) Describe el funcionamiento general de la sentencia JOIN.
+     Es una consulta que se utiliza para combinar los registros de una o más tablas de una base de datos relacional
+1.2) ¿Cuáles son los tipos de JOIN y cuál es el funcionamiento de los mismos?
+     INNER JOIN: selecciona todas las filas de las dos columnas siempre y cuando haya una coincidencia entre las columnas en ambas tablas
+     LEFT JOIN: Devuelve todas las filas de la tabla de la izquierda, y las filas coincidentes de la tabla de la derecha
+     RIGHT JOIN: Devuelve todas las filas de la tabla de la derecha, y las filas coincidentes de la tabla de la izquierda
+     OUTER JOIN o FULL OUTER JOIN: devuelve todas las filas de la tabla izquierda (tabla1) y de la tabla derecha (tabla2). Combina el resultado de los joins LEFT y RIGHT
+     https://diego.com.es/principales-tipos-de-joins-en-sql
+1.3) ¿Cuál el funcionamiento general de los TRIGGER y qué propósito tienen?
+     Es una acción que se ejecuta en respuesta a ciertos eventos, como operaciones insert, update y delete.
+     Sirven para mejorar la gestión de la base de datos, ya que no requieren que un usuario los ejecute     
+1.4) ¿Qué es y para qué sirve un STORED PROCEDURE?
+     Es conjunto de instrucciones de código que se almacenan en una base de datos y sirve para ejecutar consultas complejas y repetitivas desde cualquier parte de la aplicación

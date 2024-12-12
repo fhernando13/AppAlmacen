@@ -3,9 +3,10 @@ services:
   serverexpress:
     container_name: express
     # construir imagen
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+    # build:
+      # context: ./server
+      # dockerfile: Dockerfile
+    image: fhers13/appalmacen-serverexpress:v1
     ports:
     - "3000:3000"
     tty: true
@@ -21,10 +22,11 @@ services:
   almacen:
     container_name: almacen
     # construir imagen
-    build:
-      context: ./appalmacen
-      dockerfile: Dockerfile
+    # build:
+      # context: ./appalmacen
+      # dockerfile: Dockerfile
     # o desde el docker hub    
+    image: fhers13/appalmacen-app:v1
     ports:
     - "80:80"
     expose:

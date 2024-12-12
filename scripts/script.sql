@@ -51,14 +51,25 @@ create table Inventarios(
 	foreign key (MovimientoId) references Movimientos(Idmovimiento) on delete cascade on update cascade
 );
 
-SELECT * FROM  almacen.Roles r ;
+show tables;
+
+SELECT * FROM almacen.Roles r ;
 SELECT * from almacen.Usuarios u ;
 SELECT * from almacen.Productos p ;
 SELECT * from almacen.Inventarios i ;
 SELECT * FROM almacen.Movimientos m ;
 
+INSERT INTO almacen.Roles (Idrol, Rolusuario) VALUES(0, 'admin');
+INSERT INTO almacen.Roles (Idrol, Rolusuario) VALUES(0, 'almacenista');
+
 INSERT INTO almacen.Movimientos (Idmovimiento, Movimiento) VALUES(0, 'Entrada');
 INSERT INTO almacen.Movimientos (Idmovimiento, Movimiento) VALUES(0, 'Venta');
+
+INSERT INTO almacen.Usuarios (NombreUsuario,CorreoUsuario,PasswordUsuario,EstatusUsuario,RolId) VALUES
+	 ('fernando perez','fer@email.com','$2a$10$fBq6VSr05SgIkJwj6ZNax.Tx0bx8iVEzubvGxx.Beq7VNRMFvD6/q',1,1),
+	 ('maria juarez','maria@email.com','$2a$10$fBq6VSr05SgIkJwj6ZNax.Tx0bx8iVEzubvGxx.Beq7VNRMFvD6/q',1,2),
+	 ('jose ramirez','jose@email.com','$2a$10$YPjm1ItLJ5/0NBrAXPsfVONHjLmkCfnlLG3chfwytBcimxf6eFzum',1,2),
+	 ('ana lopez','ana@email.com','$2a$10$7/6pQ0tv.Mj6ZwZHD0PEt.zejw36TiANqo30hbX/AvudNMc2gZRye',1,2);
 
 -- querys productos
 INSERT INTO almacen.Productos (Idproducto, Nombreproducto, Precioproducto,EstatusProducto,ExistenciaProducto) VALUES(0, 'laptop', 3000.00,1,0);
