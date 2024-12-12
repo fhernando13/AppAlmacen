@@ -56,7 +56,7 @@ export class LoginComponent {
           this.userApp.setNicknameFromApi(tokenPayLoad.unique_name);
           this.userApp.setRoleFromApi(tokenPayLoad.role);
         },
-        complete: () => {this.router.navigate(['/listaUsuario']),
+        complete: () => {this.router.navigate(['/listaSimpleProducto']),
                         Swal.fire({
                           position: "center",
                           icon: "success",

@@ -4,11 +4,15 @@
 
       <button mat-button [matMenuTriggerFor]="loansMenu">Productos</button>
         <mat-menu #loansMenu="matMenu" yPosition="above">      
-          <button mat-menu-item >Lista de productos</button>    
-          
+          <button mat-menu-item [routerLink]="['/listaSimpleProducto']">Lista de productos</button> 
+          <button mat-menu-item [routerLink]="['/listaProducto']" *ngIf="role === '1'">Modificación de productos</button>   
+          <button mat-menu-item [routerLink]="['/formProducto']" *ngIf="role === '1'">Alta de productos</button>          
+          <button mat-menu-item [routerLink]="['/entradaProducto']" *ngIf="role === '1'">Entrada de productos</button> 
+          <button mat-menu-item [routerLink]="['/salidaProducto']" *ngIf="role === '2'">Salida de productos</button> 
+          <button mat-menu-item [routerLink]="['/historicoInventario']" *ngIf="role === '1'">Historico</button> 
         </mat-menu>      
 
-        <button mat-button [matMenuTriggerFor]="adminMenu" >Usuarios</button>
+        <button mat-button [matMenuTriggerFor]="adminMenu" *ngIf="role === '1'" matTooltip="Solo usuarios admin" >Usuarios</button>
         <mat-menu #adminMenu="matMenu" yPosition="below">
           <button mat-menu-item [routerLink]="['/listaUsuario']">Lista</button>
         </mat-menu>      
