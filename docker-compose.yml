@@ -39,13 +39,18 @@ services:
   database:
       container_name: database
       image: mysql:8.0
-      command: ["--default-authentication-plugin=mysql_native_password", "--sql_mode="]
+      command: --default-authentication-plugin=mysql_native_password
       restart: always
       environment:
         MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: innovadb
+        MYSQL_DATABASE: almacen
+        MYSQL_PASSWORD: root
       ports:
-        - 3306:3306
+        - "3306:3306"
+        - "33060:33060"
+      working_dir: /var/lib/mysql
+      volumes:
+        - "./mysql:/var/lib/mysql:rw"
       networks:
         red_interna:
           ipv4_address: 192.168.20.10
