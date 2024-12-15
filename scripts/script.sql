@@ -1,5 +1,5 @@
--- Gestionar bd
-use almacen;
+-- Crear base de datos
+create database almacen; -- no es necesario con docker
 
 -- Gestionar bd
 use almacen;
@@ -92,10 +92,10 @@ on m.Idmovimiento = i.MovimientoId where i.MovimientoId =2 GROUP BY (p.Idproduct
 
 -- Traer todos los productos que tengan ventas y la cantidad total de productos vendidos.
 select p.Idproducto, p.NombreProducto, p.PrecioProducto, sum(cantidad) from almacen.Productos p 
-left join almacen.Inventarios i 
+inner join almacen.Inventarios i 
 on p.Idproducto = i.ProductoId where i.Cantidad >=0 GROUP BY (p.Idproducto) ;
 
 -- Traer todos los productos (independientemente de si tienen ventas o no) y la suma total ($) vendida por producto
 select p.Idproducto, p.NombreProducto, p.PrecioProducto, sum(cantidad), sum(p.PrecioProducto*i.Cantidad) from almacen.Productos p 
-inner join almacen.Inventarios i 
-on p.Idproducto = i.ProductoId GROUP BY (p.Idproducto);																													
+left join almacen.Inventarios i 
+on p.Idproducto = i.ProductoId GROUP BY (p.Idproducto);																															
