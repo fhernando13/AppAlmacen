@@ -18,7 +18,7 @@ class UsuarioController {
     //lista de usuarios
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield conexion_1.default.query("SELECT * FROM almacen.Usuarios ", (error, results, fields) => {
+            yield conexion_1.default.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u INNER JOIN almacen.Roles r ON u.Rolid = r.Idrol ", (error, results, fields) => {
                 if (error) {
                     console.log(error);
                     return res.status(400).send('error');
@@ -43,10 +43,22 @@ class UsuarioController {
             });
         });
     }
-    //Usuarios por rol
+    //Usuarios por rol almacenista
     getall(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield conexion_1.default.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u INNER JOIN almacen.Roles r ON u.Rolid = r.Idrol ", (error, results, fields) => {
+            yield conexion_1.default.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u INNER JOIN almacen.Roles r ON u.Rolid = r.Idrol where u.RolId=2", (error, results, fields) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(400).send('error');
+                }
+                return res.status(200).send(results);
+            });
+        });
+    }
+    //Usuarios por rol admin
+    get(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield conexion_1.default.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u RIGHT JOIN almacen.Roles r ON u.Rolid = r.Idrol where u.RolId=1", (error, results, fields) => {
                 if (error) {
                     console.log(error);
                     return res.status(400).send('error');

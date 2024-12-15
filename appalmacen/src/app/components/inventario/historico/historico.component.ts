@@ -46,7 +46,7 @@ export class HistoricoComponent implements OnInit {
 
   async history(){
     await this.inventarioService.historyComplete().subscribe({
-     next: res =>{this.dataSource.data = res, console.log(res)},
+     next: res =>{this.dataSource.data = res},
      error: err =>{console.log(err)}}
    );
   }

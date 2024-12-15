@@ -98,7 +98,6 @@ export class NavigationComponent implements OnInit {
     .subscribe(val2=>{
       const fullRolFromToken = this.loginService.getRoleFromToken()
       this.role = val2 || fullRolFromToken;
-      console.log(this.role)
     })
   }
     

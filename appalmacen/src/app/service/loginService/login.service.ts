@@ -18,15 +18,15 @@ export class LoginService {
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
+      console.error('Se produjo un error:', error.error);
     } 
     if(error.status === 400)
     {
       // console.error('User not exist!!', error.error);
       Swal.fire({
         icon: 'error',
-        title: 'Try again',
-        text: 'User or password incorrect!'          
+        title: '400',
+        text: 'el servidor no pudo procesar una solicitud del cliente!'          
       })
     }
     if(error.status === 401)
@@ -34,16 +34,16 @@ export class LoginService {
       // console.error('Password is incorrect');
       Swal.fire({
         icon: 'error',
-        title: 'Try again',
-        text: 'User or password incorrect!'          
+        title: '401',
+        text: 'credenciales invalidas!'          
       })
     }
     else {
       console.error(
-        `Backend returned code ${error.status}, body was: `, error.error);
+        `Código devuelto por el backend ${error.status}, el cuerpo estaba: `, error.error);
     }
     // Return an observable with a user-facing error message.
-    return throwError(() => new Error('Something bad happened; please try again later.'));
+    return throwError(() => new Error('Algo malo pasó; por favor inténtalo de nuevo más tarde.'));
   }
 
   constructor(

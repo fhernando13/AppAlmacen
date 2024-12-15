@@ -5,6 +5,7 @@ import { ProductoService } from 'src/app/service/productoService/producto.servic
 import { MovimientoService } from 'src/app/service/movimientoService/movimiento.service';
 import { UsuarioService } from 'src/app/service/usuarioService/usuario.service';
 import { InventarioService } from 'src/app/service/inventarioService/inventario.service';
+import { CustomValidators } from 'src/app/utils/validators';
 
 //Sweetalert
 import Swal from 'sweetalert2'
@@ -18,8 +19,6 @@ export class EntradaProductoComponent implements OnInit {
 
   productid = '';
   cantidad_up = '';
-  number1 = 0; // cantidad actual
-  number2 = 0; // cantidad form
   number3 = 0; // suma
   today = new Date();
   button = "agregar";
@@ -29,15 +28,14 @@ export class EntradaProductoComponent implements OnInit {
   prods: any = [];
   moves: any = [];
   users: any = [];
-  curr_prod: any = [];
-
+  curr_prod = '';
 
     createFormGroup() {
       return new FormGroup({        
-        FechaInventario: new FormControl(this.today.toISOString()),   
-        Cantidad: new FormControl('', [Validators.required, Validators.minLength(1)]),
-        UsuarioId: new FormControl(''), 
-        ProductoId: new FormControl(''),
+        FechaInventario: new FormControl(this.today.toJSON().slice(0, 19).replace('T', ' ')),   
+        Cantidad: new FormControl('', [CustomValidators.onlyNumbers, Validators.required, Validators.minLength(1)]),
+        UsuarioId: new FormControl('',[Validators.required]), 
+        ProductoId: new FormControl('', [Validators.required]),
         MovimientoId: new FormControl(1),
       });
     }    
@@ -56,7 +54,7 @@ export class EntradaProductoComponent implements OnInit {
   }
 
   get UsuarioId() {
-    return this.entradaForm.get('Usuario');
+    return this.entradaForm.get('UsuarioId');
   }
 
   get ProductoId() {
@@ -76,42 +74,30 @@ export class EntradaProductoComponent implements OnInit {
   } 
 
   async listUser(){
-    await this.usuarioService.getUsersByRol("1").subscribe({
+    await this.usuarioService.getAllUsersAdmin().subscribe({
      next: user =>{ this.users = user},
      error: err =>{console.log(err)}}
    );
   } 
 
-  
-
   buttonSave(){
     if(this.entradaForm){      
-      this.productid = this.ProductoId.value; 
-      // Existencia producto 
+      this.productid = this.ProductoId.value;       
+      // Existencia producto
       this.inventarioService.getExistProd(this.productid).subscribe({
-        next: res =>{this.curr_prod = res},
-        error: err =>{console.log(err)},
-        complete: () => {
-                        this.number1 =  this.curr_prod,
-                        this.number2 = this.Cantidad.value,
-                        this.number3 = Number(this.number1)+Number(this.number2)   
-                        this.updatePro(this.productid, this.number3); 
-                        this.insertEntry();
-                        }                      
-      })                   
+        next: data =>{this.curr_prod = String(Object.values(data[0]))
+          this.number3 = Number(this.curr_prod)+Number(this.Cantidad.value)          
+          this.updatePro(this.productid, this.number3);
+          this.movimientoService.addInvetary(this.entradaForm.value).subscribe({
+            next: (data) => (this.entradaForm.value = data),
+            error: (err) => console.log(err)
+          });
+          Swal.fire('Buen trabajo!', 'Cantidad agregada!', 'success');
+          this.router.navigate(['/listaProducto']);
+        },
+        error: err =>{console.log(err)}
+      })          
     }
-  }
-
-  // Insertar entrada 
-  insertEntry(){
-    this.movimientoService.addInvetary(this.entradaForm.value).subscribe({
-      next: (data) => (this.entradaForm.value = data),
-      error: (err) => console.log(err),
-      complete: () => {                                                
-                      Swal.fire('Buen trabajo!', 'Cantidad agregada!', 'success');
-                      this.router.navigate(['/listaProducto']);
-                      }
-    }) 
   }
 
   //Actualizar existencia del producto

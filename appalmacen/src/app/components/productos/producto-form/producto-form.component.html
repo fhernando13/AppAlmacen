@@ -15,6 +15,9 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Producto</mat-label>
                                 <input type="text" matInput formControlName="NombreProducto" placeholder="Agrega nuevo producto" >
+                                <mat-error *ngIf="PrecioProducto.errors?.['required']">
+                                    El producto es <strong>Obligatorio</strong>
+                                </mat-error>
                             </mat-form-field>                                    
                         </div>                        
                     </div>
@@ -23,6 +26,12 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Precio</mat-label>
                                 <input type="text" matInput formControlName="PrecioProducto" placeholder="Agrega el precio" >
+                                <mat-error *ngIf="PrecioProducto.errors?.['required']">
+                                    El precio es <strong>Obligatorio</strong>
+                                </mat-error>
+                                <mat-error *ngIf="PrecioProducto.errors?.['onlyNumbers']">
+                                    Solo deben ser <strong>Números</strong>
+                                </mat-error>
                             </mat-form-field>                                    
                         </div>
                         <div class="col-6">
@@ -31,8 +40,11 @@
                                     <mat-select placeholder="choice status" formControlName="EstatusProducto">                                        
                                         <mat-option *ngFor="let op of option" [value]="op.value" >
                                             {{op.key}}
-                                        </mat-option>                    
-                                    </mat-select>                                        
+                                        </mat-option>                                                            
+                                    </mat-select>
+                                    <mat-error *ngIf="EstatusProducto.errors?.['required']">
+                                        El estatus es <strong>Obligatorio</strong>
+                                    </mat-error>                                       
                             </mat-form-field>                                    
                         </div>                        
                     </div>

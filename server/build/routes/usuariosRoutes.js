@@ -11,8 +11,9 @@ class UsuariosRoutes {
         this.config();
     }
     config() {
-        this.router.get('/listausuarios', usuarioController_1.default.list);
-        this.router.get('/usuariosbyrol', usuarioController_1.default.getall);
+        this.router.get('/usuariosbyrol', usuarioController_1.default.list);
+        this.router.get('/usuariosalmacenista', usuarioController_1.default.getall);
+        this.router.get('/usuariosadmin', usuarioController_1.default.get);
         this.router.get('/usuario/:id', usuarioController_1.default.getOne);
         this.router.get('/usuariorol/:id', usuarioController_1.default.getOneByRol);
         this.router.post('/registrar', usuarioController_1.default.create);

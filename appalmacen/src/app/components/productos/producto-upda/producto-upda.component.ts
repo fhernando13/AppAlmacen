@@ -7,6 +7,12 @@ import { ProductoService } from 'src/app/service/productoService/producto.servic
 //Sweetalert
 import Swal from 'sweetalert2'
 
+interface EstatusProducto {
+  value: boolean;
+  viewValue: string;
+}
+
+
 @Component({
   selector: 'app-producto-upda',
   templateUrl: './producto-upda.component.html',
@@ -19,13 +25,17 @@ export class ProductoUpdaComponent implements OnInit {
   productForm: Productos | any;
   statusProduct = '';
   existProduct = '';
+  estados: EstatusProducto[] = [
+    {value: true, viewValue: 'Activo'},
+    {value: false, viewValue: 'Inactivo'},
+  ];
 
   createFormGroup() {
     return new FormGroup({
       Idproducto: new FormControl(0),
       NombreProducto: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]),
       PrecioProducto: new FormControl('',[Validators.required]),         
-      EstatusProducto: new FormControl(this.statusProduct),  
+      EstatusProducto: new FormControl('',[Validators.required]),  
       ExistenciaProducto: new FormControl(this.statusProduct),  
     });
   }
@@ -45,6 +55,10 @@ export class ProductoUpdaComponent implements OnInit {
     return this.productForm.get('PrecioProducto');
   }
 
+  get EstatusProducto() {
+    return this.productForm.get('EstatusProducto');
+  }
+
   get ExistenciaProducto() {
     return this.productForm.get('ExistenciaProducto');
   }
@@ -56,18 +70,10 @@ export class ProductoUpdaComponent implements OnInit {
   getProduct(){
     const idprod = <string>this.activedRouted.snapshot.params["Idproducto"];
     if(idprod){
-      const data:any = this.productoService.getProduct(idprod).subscribe(
+      this.productoService.getProduct(idprod).subscribe(
       {
         next: data=>(this.productForm.setValue(data[0]),
-              ({
-                NombreProducto: data.NombreProducto,
-                PrecioProducto: data.PrecioProducto,
-                EstatusProducto: data.EstatusProducto,
-                ExistenciaProducto: data.ExistenciaProducto
-              }),
-              this.statusProduct = data.EstatusProducto,
               this.statusProduct = data.ExistenciaProducto
-              ,console.log(data)
             ),                        
         error: err=>(console.log(err)),
       })
@@ -79,12 +85,10 @@ export class ProductoUpdaComponent implements OnInit {
     if (this.productForm) {
       this.productoService.updateProduct(idprod, this.productForm.value).subscribe({
         next: (data) => this.productForm = data,
-        error: (err) => console.log(err),
-        complete: () => { 
-                        Swal.fire('Buen trabajo!', 'Producto actualizado!', 'success');
-                        const list = this.router.navigate(['/listaProducto']);
-        }
-        });        
+        error: (err) => console.log(err)
+        });      
+        Swal.fire('Buen trabajo!', 'Producto actualizado!', 'success');
+        this.router.navigate(['/listaProducto']);
       }
     return 'ok';
   }

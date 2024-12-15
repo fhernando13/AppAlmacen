@@ -50,8 +50,10 @@
                         <div class="col-6" >                             
                             <mat-form-field>
                                 <mat-label>Estatus</mat-label>
-                                <mat-select placeholder="Elije estatus" formControlName="EstatusUsuario">                                
-                                    <mat-option [value]="op.key" *ngFor="let op of option">{{op.key}}</mat-option>                                  
+                                <mat-select matNativeControl placeholder="Elije estatus" formControlName="EstatusUsuario">                       
+                                    <mat-option *ngFor="let estado of estados" [value]="estado.value">
+                                        {{estado.viewValue}}
+                                      </mat-option>                                
                                 </mat-select>
                                 <!--Error  -->
                                 <mat-error *ngIf="EstatusUsuario.errors?.['required']">

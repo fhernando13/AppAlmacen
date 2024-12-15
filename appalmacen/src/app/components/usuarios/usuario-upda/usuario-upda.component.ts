@@ -8,6 +8,11 @@ import { Usuarios } from '../../../models/usuarios';
 //Sweetalert
 import Swal from 'sweetalert2'
 
+interface EstatusUsuario {
+  value: boolean;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-usuario-upda',
   templateUrl: './usuario-upda.component.html',
@@ -20,7 +25,7 @@ export class UsuarioUpdaComponent implements OnInit {
       Idusuario: new FormControl(0),
       NombreUsuario: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
       CorreoUsuario: new FormControl('',[Validators.required]),
-      EstatusUsuario: new FormControl(''),
+      EstatusUsuario: new FormControl('',[Validators.required]),
       PasswordUsuario: new FormControl(this.passuser),
       RolId: new FormControl('',[Validators.required]),
     });
@@ -29,12 +34,14 @@ export class UsuarioUpdaComponent implements OnInit {
   button = "actualizar";
   title = "actualizar usuario";
   passuser = '';
+  statusUser = '';
 
   userForm: Usuarios | any;
   roles: any = [];
-  option = [
-    {value:true, key:'Activo'},
-    {value:false, key:'Inactivo'}];
+  estados: EstatusUsuario[] = [
+    {value: true, viewValue: 'Activo'},
+    {value: false, viewValue: 'Inactivo'},
+  ];
 
     constructor(private usuarioService: UsuarioService,
                 private rolesService: RolesService,
@@ -78,19 +85,11 @@ export class UsuarioUpdaComponent implements OnInit {
 
   getUpdateUser(){
     const iduser = <string>this.activedRouted.snapshot.params["Idusuario"];
-    console.log(iduser)
     if(iduser){
-      const res:any = this.usuarioService.getUser(iduser).subscribe(
+      this.usuarioService.getUser(iduser).subscribe(
       {        
         next: data=>(this.userForm.setValue(data[0]),
-              ({
-                nombreUsuario: res.NombreUsuario,
-                CorreoUsuario: res.CorreoUsuario,
-                EstatusUsuario: res.EstatusUsuario,
-                PasswordUsuario: res.PasswordUsuario,
-                RolId: res.rolId,
-              }),
-               this.passuser = data.PasswordUsuario,
+              this.passuser = data.PasswordUsuario,
               console.log(data)
             ),
         error: err=>(console.log(err)),
@@ -102,7 +101,7 @@ export class UsuarioUpdaComponent implements OnInit {
     const iduser = this.activedRouted.snapshot.params['Idusuario'];
     if (this.userForm) {
       this.usuarioService.updateUser(iduser, this.userForm.value).subscribe({
-        next: (data) => this.userForm = data,
+        next: (data) => this.userForm.value = data,
         error: (err) => console.log(err),
       });
       Swal.fire('Buen trabajo!', 'Usuario actualizado!', 'success');

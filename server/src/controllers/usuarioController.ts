@@ -7,7 +7,7 @@ class UsuarioController{
 
     //lista de usuarios
     public async  list (req: Request, res: Response){
-        await pool.query("SELECT * FROM almacen.Usuarios ", (error, results, fields) => { 
+        await pool.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u INNER JOIN almacen.Roles r ON u.Rolid = r.Idrol ", (error, results, fields) => { 
             if(error) { 
                 console.log(error); 
                 return res.status(400).send('error'); 
@@ -30,9 +30,20 @@ class UsuarioController{
         });      
     }   
 
-    //Usuarios por rol
+    //Usuarios por rol almacenista
     public async getall (req: Request, res: Response){
-        await pool.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u INNER JOIN almacen.Roles r ON u.Rolid = r.Idrol ", (error, results, fields) => { 
+        await pool.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u INNER JOIN almacen.Roles r ON u.Rolid = r.Idrol where u.RolId=2", (error, results, fields) => { 
+            if(error) { 
+                console.log(error); 
+                return res.status(400).send('error'); 
+            }
+            return res.status(200).send(results); 
+        });      
+    }
+
+    //Usuarios por rol admin
+    public async get (req: Request, res: Response){
+        await pool.query("SELECT Idusuario, NombreUsuario, CorreoUsuario, EstatusUsuario, Rolusuario FROM almacen.Usuarios u RIGHT JOIN almacen.Roles r ON u.Rolid = r.Idrol where u.RolId=1", (error, results, fields) => { 
             if(error) { 
                 console.log(error); 
                 return res.status(400).send('error'); 

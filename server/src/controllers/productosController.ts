@@ -108,7 +108,7 @@ class ProductosController{
                 console.log('Producto no existe!!');
                 return res.status(400).send('Producto no existe!!'); 
             }
-            return res.status(200).send(results); 
+            return res.status(200).send(results);             
         });      
     }
 }

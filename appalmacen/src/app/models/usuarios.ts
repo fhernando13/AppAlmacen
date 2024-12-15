@@ -3,6 +3,6 @@ export interface Usuarios {
     NombreUsuario?: string;   
     CorreoUsuario?: string;
     PasswordUsuario?: string;    
-    EstatusUsuario?: number;
+    EstatusUsuario?: string;
     RolId?: number;
 }

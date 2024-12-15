@@ -73,7 +73,7 @@ export class UsuarioFormComponent implements OnInit {
 
   async listRoles(){
     await this.rolesService.getAllRoles().subscribe({
-     next: rols =>{ this.roles = rols, console.log(rols)},
+     next: rols =>{ this.roles = rols},
      error: err =>{console.log(err)}}
    );
  }
@@ -88,7 +88,7 @@ export class UsuarioFormComponent implements OnInit {
       error: (err) => console.log(err),
       });
       Swal.fire('Buen trabajo!', 'Usuario registrado!', 'success');
-      const list = this.router.navigate(['/listaUsuario']);
+      this.router.navigate(['/listaUsuario']);
     }
     else
     {

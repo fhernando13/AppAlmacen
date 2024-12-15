@@ -5,6 +5,7 @@ import pool from '../conexion';
 class InventarioController{
 
     //join
+    //historico
     public async getall (req: Request, res: Response){
         await pool.query(`SELECT Idinventario, NombreProducto ,NombreUsuario, Movimiento, Cantidad, FechaInventario 
                           FROM almacen.Inventarios i
@@ -51,7 +52,7 @@ class InventarioController{
             ProductoId,
             MovimientoId
         };       
-        await pool.query("INSERT INTO store.Inventarios set ?",[data], (error, results, fields) => { 
+        await pool.query("INSERT INTO almacen.Inventarios set ?",[data], (error, results, fields) => { 
             if(error) { 
                 console.log(error); 
                 return res.status(400).send('error'); 
@@ -59,7 +60,7 @@ class InventarioController{
             return res.status(200).send('Movimiento de producto actualizado'); 
         });
     }
-
+   
 }
 
 const inventarioController = new InventarioController();

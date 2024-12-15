@@ -6,7 +6,7 @@ services:
     # build:
       # context: ./server
       # dockerfile: Dockerfile
-    image: fhers13/appalmacen-serverexpress:v1
+    image: fhers13/appalmacen-serverexpress:v4
     ports:
     - "3000:3000"
     tty: true
@@ -26,7 +26,7 @@ services:
       # context: ./appalmacen
       # dockerfile: Dockerfile
     # o desde el docker hub    
-    image: fhers13/appalmacen-app:v1
+    image: fhers13/appalmacen-app:v4
     ports:
     - "80:80"
     expose:
@@ -41,18 +41,13 @@ services:
   database:
       container_name: database
       image: mysql:8.0
-      command: --default-authentication-plugin=mysql_native_password
+      command: ["--default-authentication-plugin=mysql_native_password", "--sql_mode="]
       restart: always
       environment:
         MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: almacen
-        MYSQL_PASSWORD: root
       ports:
-        - "3306:3306"
-        - "33060:33060"
-      working_dir: /var/lib/mysql
-      volumes:
-        - "./mysql:/var/lib/mysql:rw"
+        - 3306:3306
       networks:
         red_interna:
           ipv4_address: 192.168.20.10

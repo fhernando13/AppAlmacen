@@ -41,7 +41,8 @@ export class ProductoListComponent implements OnInit {
   }
 
   listenButton(id:string){
-    this.idproducto = id
+    this.idproducto = id,
+    console.log(id)
   }
 
   async listProductos(){
@@ -52,8 +53,6 @@ export class ProductoListComponent implements OnInit {
      error: err =>{console.log(err)}}
    );
   }
-
-
 
   updateProduct(){
     if(this.idproducto){
@@ -67,20 +66,7 @@ export class ProductoListComponent implements OnInit {
       });
     }
   }
- // statusProducto
-  deleteProduct(){
-    if(this.idproducto){
-      this.router.navigate(['/statusProducto',this.idproducto]);
-    }else{
-      this.idproducto='';
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Debes elegir un producto para cambiar el estatus!"
-      });
-    }
-  }
-
+ 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

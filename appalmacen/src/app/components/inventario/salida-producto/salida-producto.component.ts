@@ -5,6 +5,7 @@ import { ProductoService } from 'src/app/service/productoService/producto.servic
 import { MovimientoService } from 'src/app/service/movimientoService/movimiento.service';
 import { UsuarioService } from 'src/app/service/usuarioService/usuario.service';
 import { InventarioService } from 'src/app/service/inventarioService/inventario.service';
+import { CustomValidators } from 'src/app/utils/validators';
 
 //Sweetalert
 import Swal from 'sweetalert2'
@@ -18,28 +19,28 @@ export class SalidaProductoComponent implements OnInit {
 
   productid = '';
   cantidad_up = '';
-  number1 = 0; // cantidad actual
+  number1 = ''; // cantidad actual
   number2 = 0; // cantidad form
   number3 = 0; // suma
   today = new Date();
   button = "salida";
   title = "registrar SALIDA";
-  entradaForm: FormGroup | any;
+  salidaForm: FormGroup | any;
   updateProVal: any = [];
   prods: any = [];
-  moves: any = [];
   users: any = [];
-  curr_prod: any = [];
+  curr_prod: any = [];  
+  
 
   createFormGroup() {
-    return new FormGroup({        
-      FechaInventario: new FormControl(this.today.toISOString()),   
-      Cantidad: new FormControl('', [Validators.required, Validators.minLength(1)]),
-      UsuarioId: new FormControl(''), 
-      ProductoId: new FormControl(''),
+    return new FormGroup({
+      FechaInventario: new FormControl(this.today.toJSON().slice(0, 19).replace('T', ' ')),
+      Cantidad: new FormControl('', [CustomValidators.onlyNumbers, Validators.required, Validators.minLength(1)]),
+      UsuarioId: new FormControl('',[Validators.required]),
+      ProductoId: new FormControl('',[Validators.required]),
       MovimientoId: new FormControl(2),
     });
-  } 
+  }
 
   constructor(private productoService: ProductoService,
               private movimientoService: MovimientoService,
@@ -47,85 +48,74 @@ export class SalidaProductoComponent implements OnInit {
               private inventarioService: InventarioService,
               private router: Router)
   {
-    this.entradaForm = this.createFormGroup()
+    this.salidaForm = this.createFormGroup()
   }
 
   get Cantidad() {
-    return this.entradaForm.get('Cantidad');
+    return this.salidaForm.get('Cantidad');
   }
 
   get UsuarioId() {
-    return this.entradaForm.get('Usuario');
+    return this.salidaForm.get('UsuarioId');
   }
 
   get ProductoId() {
-    return this.entradaForm.get('ProductoId');
+    return this.salidaForm.get('ProductoId');
   }
 
-  ngOnInit(){ 
+  ngOnInit(){
     this.listProActive();
     this.listUser();
-  } 
+  }
 
 async listProActive(){
   await this.productoService.getProductsActives().subscribe({
    next: prod =>{ this.prods = prod},
    error: err =>{console.log(err)}}
  );
-} 
+}
 
 async listUser(){
-  await this.usuarioService.getUsersByRol("2").subscribe({
+  await this.usuarioService.getAllUsersAlmacenistas().subscribe({
    next: user =>{ this.users = user},
    error: err =>{console.log(err)}}
  );
-} 
+}
 
 buttonSave(){
-  if(this.entradaForm){      
-    this.productid = this.ProductoId.value; 
-    // Existencia producto 
+  if(this.salidaForm){
+    this.productid = this.ProductoId.value;
+    console.log(this.salidaForm.value)
+    // Existencia producto
     this.inventarioService.getExistProd(this.productid).subscribe({
-      next: res =>{this.curr_prod = res},
-      error: err =>{console.log(err)},
-      complete: () => {
-                      this.number1 =  this.curr_prod,
-                      this.number2 = this.Cantidad.value,
-                      this.restProduct(this.number1, this.number2, this.productid)
-                      }                      
-    })                   
+      next: data =>{this.curr_prod = String(Object.values(data[0]))   
+        const numero1 = Number(this.curr_prod)
+        console.log(numero1)
+        const numero2 = Number(this.Cantidad.value)
+        console.log(numero2)
+        if(numero1 < numero2){
+          Swal.fire({
+            icon: 'error',
+            title: 'Intentalo otra vez',
+            text: 'No puedes sacar mas producto de lo existente!!!'
+          })
+        }
+        else{
+          this.number3 = Number(numero1)-Number(numero2);
+          // this.updatePro(this.productid, this.number3);
+          this.movimientoService.addInvetary(this.salidaForm.value).subscribe({
+            next: (data) => (this.salidaForm.value = data),
+            error: (err) => console.log(err)
+          });          
+        }
+      },
+      error: err =>{console.log(err)}
+    });        
   }
 }
 
-restProduct(number1: number, number2: number, productid: string){
-  if(number1 < number2){
-    Swal.fire({
-      icon: 'error',
-      title: 'Intentalo otra vez',
-      text: 'No puedes sacar mas producto de lo existente!!!'          
-    })     
-  }
-  else{
-    this.number3 = Number(number1)-Number(number2);
-    this.updatePro(productid, this.number3); 
-    this.insertEntry();
-  }  
-}
-
-  // Insertar entrada 
-  insertEntry(){
-    this.movimientoService.addInvetary(this.entradaForm.value).subscribe({
-      next: (data) => (this.entradaForm.value = data),
-      error: (err) => console.log(err),
-      complete: () => {                                                
-                      Swal.fire('Buen trabajo!', 'Producto saliente!', 'success');
-                      this.router.navigate(['/listaProducto']);
-                      }
-    }) 
-  }
-  
   //Actualizar existencia del producto
-  updatePro(productid: string, number3: number){    
+  updatePro(productid: string, number3: number){
     const producto = {
       ExistenciaProducto: number3
     }

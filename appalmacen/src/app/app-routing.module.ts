@@ -14,7 +14,6 @@ import { UsuarioUpdaComponent } from './components/usuarios/usuario-upda/usuario
 import { ProductoListComponent } from './components/productos/producto-list/producto-list.component';
 import { ProductoFormComponent } from './components/productos/producto-form/producto-form.component';
 import { ProductoUpdaComponent } from './components/productos/producto-upda/producto-upda.component';
-import { ProductoStatusComponent } from './components/productos/producto-status/producto-status.component';
 import { ProductoSimpleComponent } from './components/productos/producto-simple/producto-simple.component';
 import { EntradaProductoComponent } from './components/inventario/entrada-producto/entrada-producto.component';
 import { SalidaProductoComponent } from './components/inventario/salida-producto/salida-producto.component';
@@ -30,7 +29,6 @@ const routes: Routes = [
   { path: 'listaProducto',  canActivate:[authGuard, adminGuard],  component: ProductoListComponent },
   { path: 'formProducto',   component: ProductoFormComponent },
   { path: 'updateProducto/:Idproducto',  canActivate:[authGuard], component: ProductoUpdaComponent },
-  { path: 'statusProducto/:Idproducto',  canActivate:[authGuard], component: ProductoStatusComponent },
   { path: 'entradaProducto',  canActivate:[authGuard, adminGuard], component: EntradaProductoComponent },
   { path: 'salidaProducto',  canActivate:[authGuard, storerGuard], component: SalidaProductoComponent },
   { path: 'historicoInventario', canActivate:[authGuard, adminGuard], component: HistoricoComponent },

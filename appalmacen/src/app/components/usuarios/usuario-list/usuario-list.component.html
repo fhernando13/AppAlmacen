@@ -68,7 +68,7 @@
     
                             <ng-container matColumnDef="Status">
                                 <th mat-header-cell *matHeaderCellDef> Status </th>
-                                <td mat-cell *matCellDef="let row" > {{row.EstatusUsuario}} </td>
+                                <td mat-cell *matCellDef="let row" > {{row.EstatusUsuario | statusVal }} </td>
                               </ng-container>
                             
                             <ng-container matColumnDef="Role">

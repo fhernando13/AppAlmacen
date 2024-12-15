@@ -34,11 +34,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ProductoFormComponent } from './components/productos/producto-form/producto-form.component';
 import { ProductoListComponent } from './components/productos/producto-list/producto-list.component';
 import { ProductoUpdaComponent } from './components/productos/producto-upda/producto-upda.component';
-import { ProductoStatusComponent } from './components/productos/producto-status/producto-status.component';
 import { ProductoSimpleComponent } from './components/productos/producto-simple/producto-simple.component';
 import { EntradaProductoComponent } from './components/inventario/entrada-producto/entrada-producto.component';
 import { SalidaProductoComponent } from './components/inventario/salida-producto/salida-producto.component';
 import { HistoricoComponent } from './components/inventario/historico/historico.component';
+import { StatusValPipe } from './utils/status-val.pipe';
 
 @NgModule({
   declarations: [
@@ -51,11 +51,11 @@ import { HistoricoComponent } from './components/inventario/historico/historico.
     ProductoFormComponent,
     ProductoListComponent,
     ProductoUpdaComponent,
-    ProductoStatusComponent,
     ProductoSimpleComponent,
     EntradaProductoComponent,
     SalidaProductoComponent,
-    HistoricoComponent
+    HistoricoComponent,
+    StatusValPipe
   ],
   imports: [
     BrowserModule,

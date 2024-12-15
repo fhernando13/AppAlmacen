@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const conexion_1 = __importDefault(require("../conexion"));
 class InventarioController {
     //join
+    //historico
     getall(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             yield conexion_1.default.query(`SELECT Idinventario, NombreProducto ,NombreUsuario, Movimiento, Cantidad, FechaInventario 
@@ -64,7 +65,7 @@ class InventarioController {
                 ProductoId,
                 MovimientoId
             };
-            yield conexion_1.default.query("INSERT INTO store.Inventarios set ?", [data], (error, results, fields) => {
+            yield conexion_1.default.query("INSERT INTO almacen.Inventarios set ?", [data], (error, results, fields) => {
                 if (error) {
                     console.log(error);
                     return res.status(400).send('error');

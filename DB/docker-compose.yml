@@ -11,7 +11,7 @@ services:
       ports:
         - "3306:3306"
         - "33060:33060"
-      working_dir: /var/lib/mysql
-      volumes:
-        - "./mysql:/var/lib/mysql:rw"
+      # working_dir: /var/lib/mysql
+      # volumes:
+      #   - "./mysql:/var/lib/mysql:rw"
       

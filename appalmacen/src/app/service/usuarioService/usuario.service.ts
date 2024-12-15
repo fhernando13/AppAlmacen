@@ -58,12 +58,16 @@ export class UsuarioService {
     );
   }  
 
-  getAllUsers(){
-    return this.http.get<Usuarios[]>(this.API_URI+"/usuarios/listausuarios");    
-  }
-
   getAllUsersByRole(){
     return this.http.get<Usuarios[]>(this.API_URI+"/usuarios/usuariosbyrol");    
+  }
+
+  getAllUsersAdmin(){
+    return this.http.get<Usuarios[]>(this.API_URI+"/usuarios/usuariosadmin");    
+  }
+
+  getAllUsersAlmacenistas(){
+    return this.http.get<Usuarios[]>(this.API_URI+"/usuarios/usuariosalmacenista");    
   }
 
   getUser(id: string): Observable<any>{

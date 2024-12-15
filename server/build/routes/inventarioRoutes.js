@@ -12,7 +12,7 @@ class InventariosRoutes {
     }
     config() {
         this.router.get('/historicocompleto', inventarioController_1.default.getall);
-        this.router.post('/entrada', inventarioController_1.default.create);
+        this.router.post('/movimiento', inventarioController_1.default.create);
     }
 }
 const inventariosRoutes = new InventariosRoutes();
