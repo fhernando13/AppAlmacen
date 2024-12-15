@@ -102,11 +102,13 @@ buttonSave(){
         }
         else{
           this.number3 = Number(numero1)-Number(numero2);
-          // this.updatePro(this.productid, this.number3);
+          this.updatePro(this.productid, this.number3);
           this.movimientoService.addInvetary(this.salidaForm.value).subscribe({
             next: (data) => (this.salidaForm.value = data),
             error: (err) => console.log(err)
-          });          
+          });   
+          Swal.fire('Buen trabajo!', 'Venta de producto!', 'success');
+          this.router.navigate(['/listaSimpleProducto']);       
         }
       },
       error: err =>{console.log(err)}

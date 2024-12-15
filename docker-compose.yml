@@ -26,7 +26,7 @@ services:
       # context: ./appalmacen
       # dockerfile: Dockerfile
     # o desde el docker hub    
-    image: fhers13/appalmacen-app:v5
+    image: fhers13/appalmacen-app:v6
     ports:
     - "80:80"
     expose:
